@@ -2,9 +2,9 @@ version: 0.0
 os: linux
 hooks:
   BeforeInstall:
-    - location: pip3 install -r requirements.txt
+    - location: install-all-reqs.sh
       timeout: 300
       runas: root
-    - location: python3 -m flask run -h 0.0.0.0
+    - location: run-project.sh
       timeout: 300
       runas: root
