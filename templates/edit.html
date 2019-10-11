@@ -1,20 +1,72 @@
-<doctype html>
-<title>Edit User - Python Flask MySQL CRUD</title>
-<h2>Edit User</h2>
-<form method="post" action="/update">
-    <dl>
-		<p>
-			<input name="inputName" value="{{ row['user_name'] }}" type="text" placeholder="Name" autocomplete="off" required>
-		</p>
-		<p>
-			<input name="inputEmail" value="{{ row['user_email'] }}" type="text" placeholder="Email" autocomplete="off" required>
-		</p>
-		<p>
-			<input name="inputPassword" value="" type="password" placeholder="Password" autocomplete="off" required>
-		</p>
-    </dl>
-    <p>
-		<input name="id" value="{{ row['user_id'] }}" type="hidden">
-		<input type="submit" value="Submit">
-	</p>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="container" class="container">
+    <div class="row">
+        <div class="col-sm-30 offset-sm-1 text-center">
+            <div class="form-group">
+                <form class="form-inline text-center border border-light p-5 justify-content-center" action="/update"
+                      method="POST">
+
+                    <div class="col-sm-10">
+                        <label for="user_name">
+
+                        </label>
+                        <input type="text" id="user_name" class="form-control" name="user_name" placeholder="Username"
+                               value="{{ row['user_name'] }}">
+                    </div>
+                    <div class="col-sm-10">
+                        <label for="user_email">
+
+                        </label>
+                        <input type="text" id="user_email" class="form-control" name="user_email" placeholder="E-Mail"
+                               value="{{ row['user_email'] }}">
+                    </div>
+
+                    <div class="col-sm-10">
+                        <label for="user_password">
+
+                        </label>
+                        <input type="password" id="user_password" class="form-control" name="user_password"
+                               placeholder="Password" required value="">
+                    </div>
+                    <div class="container">
+    <input name="id" id="id" value="{{ row['user_id'] }}" type="hidden">
+</div>
+                    <div class="col-sm-10">
+                        <input type="submit" value="Submit" class="form-control btn btn-info my-4">
+                    </div>
+
+
+
+                    {#    <dl>#}
+                    {#        <p>#}
+                    {#            <input name="user_name" value="{{ row['user_name'] }}" type="text" placeholder="Username" autocomplete="off"#}
+                    {#                   required>#}
+                    {#        </p>#}
+                    {#        <p>#}
+                    {#            <input name="inputEmail" value="{{ row['user_email'] }}" type="text" placeholder="Email" autocomplete="off"#}
+                    {#                   required>#}
+                    {#        </p>#}
+                    {#        <p>#}
+                    {#            <input name="inputPassword" value="" type="password" placeholder="Password" autocomplete="off" required>#}
+                    {#        </p>#}
+                    {#    </dl>#}
+                    {#    <p>#}
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

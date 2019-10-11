@@ -14,4 +14,3 @@ PyMySQL==0.9.3
 pytz==2019.2
 Werkzeug==0.15.6
 WTForms==2.2.1
-

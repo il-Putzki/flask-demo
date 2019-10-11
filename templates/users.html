@@ -1,18 +1,36 @@
-<doctype html>
-<title>List of users - Python Flask MySQL CRUD</title>
-
-<p><a href="{{ url_for('.add_user_view') }}"> Add User </a></p>
-
-<p>
-	{% with messages = get_flashed_messages() %}
-	  {% if messages %}
-		<ul class=flashes>
-		{% for message in messages %}
-		  <li>{{ message }}</li>
-		{% endfor %}
-		</ul>
-	  {% endif %}
-	{% endwith %}
-</p>
-
-{{ table }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users list</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<div align="center">
+    <div class="row col-md-5 col-md-push-4">
+        <table class="table table-striped text-center">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">E-Mail</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">{{ row[1] }}</th>
+                    <th scope="col">{{ row[2] }}</th>
+                    <th scope="col">
+                        <a href="/edit/{{ row[0] }}" class="btn btn-info btn-block" role="button">Edit</a>
+                        <a href="/delete/{{ row[0] }}" class="btn btn-danger btn-block" role="button">Delete</a>
+                    </th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
