@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+
+{% block content %}
+    {% include "includes/_messages.html" %}
+
+    <form class="text-center border border-light p-5" action="" method="POST">
+
+        <p class="h4 mb-4">Sign up</p>
+
+        <div class="form-row mb-4">
+            <div class="col">
+                <label for="defaultRegisterFormFirstName">
+
+                </label>
+                <input type="text" id="username" class="form-control" name="username" placeholder="Username">
+            </div>
+        </div>
+
+        <label for="defaultRegisterFormPassword">
+
+        </label>
+        <input type="password" id="password" class="form-control" name="password" placeholder="Password"
+               aria-describedby="defaultRegisterFormPasswordHelpBlock">
+        <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+            At least 8 characters and 1 digit
+        </small>
+
+        <input type="password" id="confirm" class="form-control" name="confirm" placeholder="Repeat Password"
+               aria-describedby="defaultRegisterFormPasswordHelpBlock">
+
+        <button class="btn btn-info my-4 btn-block" type="submit">Sign in</button>
+    </form>
+{% endblock %}
+</body>
+</html>

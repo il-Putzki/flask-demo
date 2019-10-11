@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login page</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+{% block content %}
+    {% include "includes/_messages.html" %}
+    <form class="text-center border border-light p-5" action="" method="POST">
+        <p class="h4 mb-4">Sign in</p>
+        <label for="defaultLoginFormUsername">
+            Username
+        </label>
+        <input type="text" id="defaultLoginFormUsername" class="form-control mb-4" placeholder="Username"
+               value="{{ request.form.username }}" name="username">
+        <label for="defaultLoginFormPassword">
+            Password
+        </label>
+        <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password"
+               value="{{ request.form.password }}" name="password">
+        <div class="d-flex justify-content-around">
+            <div>
+                <!-- Remember me -->
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                    <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>
+    </form>
+{% endblock %}
+</body>
