@@ -1,0 +1,42 @@
+pipeline {
+    options {
+        timestamps()
+    }
+
+    environment {
+        repo = "$apt_repo"
+
+    }
+
+    agent {
+        docker {
+            image 'howardjones/fpm-rpm-builder'
+            args  '--entrypoint=""'
+        }
+    }
+
+    stages {
+
+        stage('Get project sources') {
+            steps {
+                git branch: 'master', url: 'https://github.com/il-Putzki/flask-demo.git', credentialsId: '68abdab5-58da-46b6-838f-bc6f6f5039a7'
+            }
+        }
+
+        stage('Make .deb package') {
+            steps {
+                sh 'rm -r .git'
+                sh '/usr/local/bin/fpm -s dir -t deb -n flask-app -v 0.${BUILD_NUMBER} .=/home/ubuntu/flask_app'
+            }
+        }
+
+        stage('Push deb package to apt repo') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'apt_repo', passwordVariable: 'password', usernameVariable: 'username')]) {
+                    sh 'curl -u "$username:$password" -H "Content-Type: multipart/form-data" --data-binary "@./flask-app_0.${BUILD_NUMBER}_amd64.deb" "$repo"'
+                }
+            }
+        }
+
+    }
+}

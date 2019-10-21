@@ -1,0 +1,26 @@
+pipeline {
+
+   agent {
+       docker {
+           image 'python:3'
+           // args  '--entrypoint=""'
+           args '-u root'
+       }
+   }
+
+   stages {
+
+       stage('Get infrastructure from Git Repo') {
+           steps {
+               git branch: 'master', url: 'https://github.com/il-Putzki/flask-demo.git', credentialsId: '68abdab5-58da-46b6-838f-bc6f6f5039a7'
+           }
+       }
+
+       stage('Run tests') {
+           steps {
+               sh 'pip install --no-cache-dir -r requirements.txt'
+               sh 'pytest test_example.py'
+           }
+       }
+   }
+}
