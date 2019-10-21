@@ -19,16 +19,20 @@ mysql.init_app(app)
 
 table_name1 = 'admins'
 table_name2 = 'users'
-connection = mysql.connect()
-cur = connection.cursor()
-sql1 = "CREATE table if not exists " + table_name1 + "(username varchar(30), password varchar(100))"
-sql2 = "CREATE table if not exists " + table_name2 + "(user_id int(5) NOT NULL AUTO_INCREMENT PRIMARY KEY, " \
-                                                     "user_name varchar(30), " \
-                                                     "user_email varchar(50), user_password varchar(100))"
-cur.execute(sql1)
-cur.execute(sql2)
-connection.commit()
-cur.close()
+try:
+    connection = mysql.connect()
+    cur = connection.cursor()
+    sql1 = "CREATE table if not exists " + table_name1 + "(username varchar(30), password varchar(100))"
+    sql2 = "CREATE table if not exists " + table_name2 + "(user_id int(5) NOT NULL AUTO_INCREMENT PRIMARY KEY, " \
+                                                         "user_name varchar(30), " \
+                                                         "user_email varchar(50), user_password varchar(100))"
+    cur.execute(sql1)
+    cur.execute(sql2)
+    connection.commit()
+    cur.close()
+
+except pymysql.err.OperationalError:
+    print("No connection to DB")
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -63,7 +67,7 @@ def main_page():
 class RegisterForm(Form):
     username = StringField('Username', [validators.length(min=1, max=50)])
     password = PasswordField('New Password', [
-        validators.Required(),
+        validators.DataRequired(),
         validators.EqualTo('confirm', message='Passwords must match')
     ])
     confirm = PasswordField('Repeat Password')
@@ -105,7 +109,7 @@ class AddUserForm(Form):
     user_name = StringField('Username', [validators.DataRequired(), validators.length(min=1, max=50)])
     user_email = StringField('Email', [validators.DataRequired(), validators.Email()])
     password = PasswordField('New Password', [
-        validators.Required(),
+        validators.DataRequired(),
         validators.EqualTo('confirm', message='Passwords must match')
     ])
     confirm = PasswordField('Repeat Password')
