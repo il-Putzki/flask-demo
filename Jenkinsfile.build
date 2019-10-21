@@ -1,19 +1,19 @@
 pipeline {
+
+    agent {
+        label 'master'
+    }
+
     options {
         timestamps()
     }
 
     environment {
         repo = "$apt_repo"
-
+        SCANNER_HOME = tool name: 'sq-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
     }
 
-    agent {
-        docker {
-            image 'howardjones/fpm-rpm-builder'
-            args  '--entrypoint=""'
-        }
-    }
+
 
     stages {
 
@@ -25,21 +25,45 @@ pipeline {
 
         stage('Run SonarScanner') {
             steps {
-              // def scannerHome = tool 'sq-scanner';
-              withSonarQubeEnv('My SonarQube Server') {
-                sh "/bin/sonar-scanner"
-              }
+                withSonarQubeEnv('SonarCloud') {
+                sh '${SCANNER_HOME}/bin/sonar-scanner'
+                }
+            }
+        }
+
+        stage('Get project sources into build container') {
+            agent {
+                docker {
+                    image 'howardjones/fpm-rpm-builder'
+                    args  '--entrypoint=""'
+                }
+            }
+            steps {
+                git branch: 'master', url: 'https://github.com/il-Putzki/flask-demo.git', credentialsId: '68abdab5-58da-46b6-838f-bc6f6f5039a7'
             }
         }
 
         stage('Make .deb package') {
+            agent {
+                docker {
+                    image 'howardjones/fpm-rpm-builder'
+                    args  '--entrypoint=""'
+                }
+            }
             steps {
+                sh 'ls -la'
                 sh 'rm -r .git'
                 sh '/usr/local/bin/fpm -s dir -t deb -n flask-app -v 0.${BUILD_NUMBER} .=/home/ubuntu/flask_app'
             }
         }
 
         stage('Push deb package to apt repo') {
+            agent {
+                docker {
+                    image 'howardjones/fpm-rpm-builder'
+                    args  '--entrypoint=""'
+                }
+            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'apt_repo', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh 'curl -u "$username:$password" -H "Content-Type: multipart/form-data" --data-binary "@./flask-app_0.${BUILD_NUMBER}_amd64.deb" "$repo"'
