@@ -23,6 +23,15 @@ pipeline {
             }
         }
 
+        stage('Run SonarScanner') {
+            steps {
+              def scannerHome = tool 'sq-scanner';
+              withSonarQubeEnv('My SonarQube Server') {
+                sh "${scannerHome}/bin/sonar-scanner"
+              }
+            }
+        }
+
         stage('Make .deb package') {
             steps {
                 sh 'rm -r .git'
