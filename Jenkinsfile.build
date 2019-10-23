@@ -66,9 +66,7 @@ pipeline {
 
         stage('Push deb package to apt repo') {
             agent {
-                docker {
                     label 'master'
-                }
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'apt_repo', passwordVariable: 'password', usernameVariable: 'username')]) {
