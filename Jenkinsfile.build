@@ -61,6 +61,7 @@ pipeline {
                 sh 'rm -r .git'
                 sh '/usr/local/bin/fpm -s dir -t deb -n flask-app -v 0.${BUILD_NUMBER} .=/home/ubuntu/flask_app'
                 sh 'ls -la'
+                archiveArtifacts '*.deb'
             }
         }
 
