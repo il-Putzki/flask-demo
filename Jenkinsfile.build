@@ -67,7 +67,8 @@ pipeline {
         stage('Push deb package to apt repo') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'apt_repo', passwordVariable: 'password', usernameVariable: 'username')]) {
-                    sh 'curl -u "$username:$password" -H "Content-Type: multipart/form-data" --data-binary "@./flask-app_0.${BUILD_NUMBER}_amd64.deb" "$repo"'
+                  sh 'ls-la'
+                  sh 'curl -u "$username:$password" -H "Content-Type: multipart/form-data" --data-binary "@./flask-app_0.${BUILD_NUMBER}_amd64.deb" "$repo"'
                 }
             }
         }
