@@ -67,8 +67,7 @@ pipeline {
         stage('Push deb package to apt repo') {
             agent {
                 docker {
-                    image 'howardjones/fpm-rpm-builder'
-                    args  '--entrypoint=""'
+                    label 'master'
                 }
             }
             steps {
