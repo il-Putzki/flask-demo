@@ -73,7 +73,7 @@ pipeline {
             }
         }
 
-        stage("Timeout") {
+        stage("Timeout2") {
           steps {
                       timeout(10) {
                         sh 'ls'
