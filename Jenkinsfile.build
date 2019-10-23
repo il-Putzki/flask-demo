@@ -1,8 +1,6 @@
 pipeline {
 
-    agent {
-        label 'master'
-    }
+    agent none
 
     options {
         timestamps()
@@ -18,12 +16,18 @@ pipeline {
     stages {
 
         stage('Get project sources') {
+          agent {
+              label 'master'
+          }
             steps {
                 git branch: 'master', url: 'https://github.com/il-Putzki/flask-demo.git', credentialsId: '68abdab5-58da-46b6-838f-bc6f6f5039a7'
             }
         }
 
         stage('Run SonarScanner') {
+          agent {
+              label 'master'
+          }
             steps {
                 withSonarQubeEnv('SonarCloud') {
                 sh '${SCANNER_HOME}/bin/sonar-scanner'
