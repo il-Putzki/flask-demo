@@ -18,32 +18,23 @@ pipeline {
     stages {
 
         stage('Get project sources') {
-          agent {
-              label 'master'
-          }
+          // agent {
+          //     label 'master'
+          // }
             steps {
                 git branch: 'master', url: 'https://github.com/il-Putzki/flask-demo.git', credentialsId: '68abdab5-58da-46b6-838f-bc6f6f5039a7'
             }
         }
 
         stage('Run SonarScanner') {
-          agent {
-              label 'master'
-          }
+          // agent {
+          //     label 'master'
+          // }
             steps {
                 withSonarQubeEnv('SonarCloud') {
                 sh '${SCANNER_HOME}/bin/sonar-scanner'
                 }
             }
-        }
-
-        stage("Timeout") {
-          steps {
-                      timeout(10) {
-                        sh 'ls'
-                      }
-          }
-
         }
 
         // stage('Get project sources into build container') {
@@ -73,19 +64,7 @@ pipeline {
             }
         }
 
-        stage("Timeout2") {
-          steps {
-                      timeout(10) {
-                        sh 'ls'
-                      }
-          }
-
-        }
-
         stage('Push deb package to apt repo') {
-            agent {
-                    label 'master'
-            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'apt_repo', passwordVariable: 'password', usernameVariable: 'username')]) {
                     sh 'curl -u "$username:$password" -H "Content-Type: multipart/form-data" --data-binary "@./flask-app_0.${BUILD_NUMBER}_amd64.deb" "$repo"'
