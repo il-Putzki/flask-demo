@@ -37,6 +37,15 @@ pipeline {
             }
         }
 
+        stage("Timeout") {
+          steps {
+                      timeout(10) {
+                        sh 'ls'
+                      }
+          }
+
+        }
+
         // stage('Get project sources into build container') {
         //     agent {
         //         docker {
@@ -62,6 +71,15 @@ pipeline {
                 sh '/usr/local/bin/fpm -s dir -t deb -n flask-app -v 0.${BUILD_NUMBER} .=/home/ubuntu/flask_app'
                 sh 'ls -la'
             }
+        }
+
+        stage("Timeout") {
+          steps {
+                      timeout(10) {
+                        sh 'ls'
+                      }
+          }
+
         }
 
         stage('Push deb package to apt repo') {
